@@ -13,6 +13,7 @@
             {% csrf_token %}
             <button type="submit">Выйти</button>
         </form>
+<!--        дз 53-->
     {% else %}
         <p>
             <a href="{% url 'app_accounts:login' %}">Войти в аккаунт</a>&nbsp;|

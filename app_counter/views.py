@@ -20,7 +20,8 @@ from app_counter.models import Counter
 def index(request):
     if request.user.is_authenticated:
 
-        counters = request.user.counters.all()
+        # counters = request.user.counters.all()
+        counters = request.user.counters.filter(is_favorite=True)
     else:
 
 
@@ -68,7 +69,7 @@ def create_counter(request):
 @login_required
 def increase_counter(request):
 
-    request.user.counters.update(value=F('value') + 1)
+    request.user.counters.filter(is_favorite= True).update(value=F('value') + 1)
 
     return HttpResponseRedirect(redirect_to=reverse("app_counter:counter"))
 
@@ -76,7 +77,7 @@ def increase_counter(request):
 @login_required
 def decrease_counter(request):
 
-    request.user.counters.update(value=F('value') - 1)
+    request.user.counters.filter(is_favorite=True).update(value=F('value') - 1)
 
     return HttpResponseRedirect(redirect_to=reverse("app_counter:counter"))
 

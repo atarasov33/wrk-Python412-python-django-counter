@@ -63,3 +63,15 @@ def decrease_counter(request):
 
     return HttpResponseRedirect(redirect_to=reverse("app_counter:counter"))
 
+
+@login_required()
+def manage_counter(request):
+    counters = Counter.objects.all()
+    return  render(
+        request=request,
+        template_name="app_counter/manage_counter.html",
+        context={
+            "counters":counters
+        }
+    )
+

@@ -6,6 +6,13 @@
     <p>Добро пожаловать в мир счётчиков.</p>
 
     {% if user.is_authenticated %}
+
+        <p>
+
+
+        </p>
+            <a href="{% url 'app_counter:manage_counter' %}">Управление счетчиками</a>
+
         <p>
             <a href="{% url 'app_counter:counter' %}">Крутить свой счётчик</a>
         </p>

@@ -24,6 +24,6 @@ class Counter(models.Model):
     def __str__(self):
         return f"id={self.id} value={self.value}"
 
-    def save(self,args, kwargs):
+    def save(self,*args, **kwargs):
         self.full_clean()
-        super().save(args,kwargs)
+        super().save(*args,**kwargs)

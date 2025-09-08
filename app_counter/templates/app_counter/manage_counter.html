@@ -5,7 +5,7 @@
     <ul>
     {% for counter in counters %}
         <li>
-            <a href="#">Счетчик #{{counter.id}} - Значение: {{counter.value}} - Главный: {{counter.is_favorite}} </a>
+            <a href="{% url 'app_counter:set_favorit' counter.id  %}">Счетчик #{{counter.id}} - Значение: {{counter.value}} - Главный: {{counter.is_favorite}} </a>
         </li>
 
     {% endfor %}

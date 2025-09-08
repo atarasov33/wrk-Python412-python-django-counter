@@ -5,9 +5,26 @@ from django.shortcuts import render, reverse,redirect
 from app_counter.models import Counter
 
 
-def index(request):
+# def index(request):
+#
+#     counters = request.user.counters.all()
+#
+#     return render(
+#         request=request,
+#         template_name="app_counter/index.html",
+#         context={
+#             "counters": counters
+#         }
+#     )
 
-    counters = Counter.objects.all()
+def index(request):
+    if request.user.is_authenticated:
+
+        counters = request.user.counters.all()
+    else:
+
+
+        counters = Counter.objects.none()
 
     return render(
         request=request,
@@ -22,7 +39,7 @@ def index(request):
 def counter(request):
 
     try:
-        counter = Counter.objects.get(user=request.user)
+        counter = request.user.counters.get(is_favorite=True)
     except Counter.DoesNotExist:
         counter = None
 
@@ -51,7 +68,7 @@ def create_counter(request):
 @login_required
 def increase_counter(request):
 
-    Counter.objects.filter(user=request.user).update(value=F('value') + 1)
+    request.user.counters.update(value=F('value') + 1)
 
     return HttpResponseRedirect(redirect_to=reverse("app_counter:counter"))
 
@@ -59,7 +76,7 @@ def increase_counter(request):
 @login_required
 def decrease_counter(request):
 
-    Counter.objects.filter(user=request.user).update(value=F('value') - 1)
+    request.user.counters.update(value=F('value') - 1)
 
     return HttpResponseRedirect(redirect_to=reverse("app_counter:counter"))
 
@@ -75,6 +92,14 @@ def manage_counter(request):
         }
     )
 @login_required()
-def set_favorit(request):
-    pass
+def set_favorit(request, counter_id):
+    try:
+        counter = request.user.counters.get(pk=counter_id)
+        counter.is_favorite=True
+        counter.save()
+
+    except Counter.DoesNotExist:
+        pass
+    return HttpResponseRedirect(redirect_to=reverse("app_counter:manage_counter"))
+
 

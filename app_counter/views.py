@@ -66,7 +66,7 @@ def decrease_counter(request):
 
 @login_required()
 def manage_counter(request):
-    counters = Counter.objects.all()
+    counters = request.user.counters.all()
     return  render(
         request=request,
         template_name="app_counter/manage_counter.html",
@@ -74,4 +74,7 @@ def manage_counter(request):
             "counters":counters
         }
     )
+@login_required()
+def set_favorit(request):
+    pass
 

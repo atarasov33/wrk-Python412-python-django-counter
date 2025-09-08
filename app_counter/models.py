@@ -10,6 +10,7 @@ class Counter(models.Model):
         null=True,
         blank=True
     )
+    is_favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return f"id={self.id} value={self.value}"
